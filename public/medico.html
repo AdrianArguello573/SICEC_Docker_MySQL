@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SICEC | Paneles de administración, médicos y pacientes</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brandlogo">♡</div><div><h1>SICEC</h1><small>Sistema Integral de Control<br>de Expedientes Clínicos</small></div></div>
+    <nav class="nav">
+      <button class="active" data-page="inicio"><span class="ico">⌂</span><span>Inicio</span></button>
+      <button data-page="pacientes"><span class="ico">👥</span><span>Mis pacientes</span></button>
+      <button data-page="agenda"><span class="ico">📅</span><span>Agenda</span></button>
+      <button data-page="consultas"><span class="ico">🩺</span><span>Consultas</span></button>
+      <button data-page="recetas"><span class="ico">💊</span><span>Recetas</span></button>
+      <button data-page="estudios"><span class="ico">🧪</span><span>Estudios</span></button>
+      <button data-page="notas"><span class="ico">📝</span><span>Notas clínicas</span></button>
+      <button data-page="perfil"><span class="ico">👤</span><span>Perfil</span></button>
+    </nav>
+    <div class="location">📍 <span><strong>Tuxtla Gutiérrez, Chiapas</strong><br>Salud cerca de ti</span></div>
+  </aside>
+
+  <main class="main">
+<div class="role-switch"><a class="chosen" href="/medico.html">🩺 Médicos</a><a href="/administrador.html">🏥 Dirección</a><a href="/paciente.html">👤 Pacientes</a><button type="button" id="logoutBtn">Salir</button></div>
+<div id="doctorArea">
+    <div class="topbar">
+      <div class="white clinic"><div class="clinic-icon">✚</div><div><strong style="color:#0d5f7c">HealthCare</strong><div class="small">Consultorios de Médicos Especialistas</div></div></div>
+      <div class="search"><span>🔎</span><input id="globalSearch" placeholder="Buscar pacientes por nombre, expediente o CURP..."></div>
+      <div class="user"><button class="bell" id="bellBtn">🔔<b>2</b></button><div class="white usercard"><div class="avatar">DR</div><div><strong>Dr. Carlos Mendoza</strong><div class="small">Médico</div></div></div></div>
+    </div>
+
+    <section class="page active" id="inicio">
+      <div class="stats">
+        <div class="white stat"><div class="sicon b">🩺</div><div><h4>Consultas hoy</h4><span class="num" id="statConsultas">0</span> <span class="trend">↑ +14%</span><div class="small">vs. ayer</div></div></div>
+        <div class="white stat"><div class="sicon b">👥</div><div><h4>Pacientes asignados</h4><span class="num" id="statPacientes">0</span> <span class="trend">↑ +5%</span><div class="small">vs. mes anterior</div></div></div>
+        <div class="white stat"><div class="sicon g">📄</div><div><h4>Estudios por revisar</h4><span class="num" id="statEstudios">0</span> <span style="font-size:12px;color:var(--red);font-weight:800">↑ +33%</span><div class="small">vs. semana anterior</div></div></div>
+        <div class="white stat"><div class="sicon v">💊</div><div><h4>Recetas emitidas</h4><span class="num" id="statRecetas">0</span> <span class="trend">↑ +20%</span><div class="small">vs. ayer</div></div></div>
+      </div>
+
+      <div class="layout">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="white panel">
+            <div class="panel-head"><div><h3>Agenda del día</h3><div class="small" id="agendaDate"></div></div><button class="btn soft" id="btnAddCita">Nueva cita</button></div>
+            <div class="panel-body"><div id="agendaMini"></div><button class="btn soft" style="width:100%;margin-top:12px" data-go="agenda">Ver agenda completa</button></div>
+          </div>
+          <div class="white" style="padding:16px">
+            <div class="toolbar">
+              <button class="btn primary" id="btnAddPaciente">＋ Nuevo paciente</button>
+              <button class="btn ghost" id="btnAddConsulta">🩺 Nueva consulta</button>
+            </div>
+            <div class="small">Los datos se sincronizan con MySQL mediante el servidor. Utiliza solo información ficticia para pruebas.</div>
+          </div>
+        </div>
+
+        <div class="white panel">
+          <div class="patient-top">
+            <div class="pavatar" id="pAvatar">ML</div>
+            <div class="patient-main">
+              <h2><span id="pName">María López Hernández</span><span class="pill">Paciente activo</span></h2>
+              <div class="exp">Expediente: <span id="pExp">HC-00124</span></div>
+              <div class="meta">
+                <div>📅 <strong id="pAge">34 años</strong><div class="small" id="pBirth"></div></div>
+                <div>⚥ <strong id="pSex"></strong></div>
+                <div>🩸 <strong id="pBlood"></strong></div>
+                <div>⚠ <strong>Alergias:</strong> <span id="pAllergy" style="color:var(--red);font-weight:800"></span></div>
+              </div>
+            </div>
+            <div class="contact">
+              <div class="top-actions">
+                <button class="btn ghost" id="btnEditPaciente">✎ Editar datos</button>
+                <button class="btn ghost" id="btnDeletePaciente">🗑</button>
+              </div>
+              <div>📞 <span id="pPhone"></span></div>
+              <div>✉ <span id="pEmail"></span></div>
+              <div>📍 <span id="pCity"></span></div>
+            </div>
+          </div>
+
+          <div class="tabs" id="recordTabs">
+            <button data-tab="general">Datos generales</button>
+            <button data-tab="antecedentes">Antecedentes</button>
+            <button data-tab="consulta" class="active">Consulta actual</button>
+            <button data-tab="vitales">Signos vitales</button>
+            <button data-tab="diagnostico">Diagnóstico</button>
+            <button data-tab="tratamiento">Tratamiento</button>
+            <button data-tab="receta">Receta</button>
+            <button data-tab="estudios">Estudios</button>
+          </div>
+
+          <div class="record">
+            <div class="left">
+              <div class="two">
+                <div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><h4>Motivo de consulta</h4><button class="btn soft" id="btnEditMotivo">Editar</button></div><p id="motivoTxt"></p></div>
+                <div class="box">
+                  <div style="display:flex;justify-content:space-between;gap:8px"><h4>Signos vitales <span class="small" id="vitalTime"></span></h4><button class="btn soft" id="btnEditVitals">✎ Editar</button></div>
+                  <div class="vitals-grid">
+                    <div class="vital"><small>TA</small><strong id="vTA"></strong><small>mmHg</small></div>
+                    <div class="vital"><small>FC</small><strong id="vFC"></strong><small>lpm</small></div>
+                    <div class="vital"><small>FR</small><strong id="vFR"></strong><small>rpm</small></div>
+                    <div class="vital"><small>Temp.</small><strong id="vTemp"></strong><small>°C</small></div>
+                    <div class="vital"><small>SpO₂</small><strong id="vSpO2"></strong><small>%</small></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><h4>Padecimiento actual</h4><button class="btn soft" id="btnEditPadecimiento">Editar</button></div><p id="padecimientoTxt"></p></div>
+              <div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><h4>Exploración física</h4><button class="btn soft" id="btnEditExploracion">Editar</button></div><p id="exploracionTxt"></p></div>
+
+              <div class="two">
+                <div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><h4>Diagnóstico presuntivo</h4><button class="btn soft" id="btnEditDx">Editar</button></div><p id="dxTxt"></p></div>
+                <div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><h4>Plan terapéutico</h4><button class="btn soft" id="btnEditPlan">Editar</button></div><p id="planTxt"></p></div>
+              </div>
+
+              <div class="actions3">
+                <button class="action primary" id="btnSaveNote">💾 Guardar nota</button>
+                <button class="action soft" id="btnCreateRx">💊 Generar receta</button>
+                <button class="action soft" id="btnCreateStudy">🧪 Solicitar estudio</button>
+              </div>
+            </div>
+
+            <div class="right">
+              <div class="box alertbox"><div style="display:flex;justify-content:space-between;gap:8px"><h4>🚨 Alertas clínicas</h4><button class="btn soft" id="btnEditAlerts">Editar</button></div><ul class="list" id="alertsList"></ul></div>
+              <div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><h4>Antecedentes relevantes</h4><button class="btn soft" id="btnEditHistory">Editar</button></div><ul class="list" id="historyList"></ul></div>
+              <div class="box"><div style="display:flex;justify-content:space-between;align-items:center"><h4>Últimos estudios</h4><button class="btn soft" data-go="estudios">Ver todos</button></div><div id="recentStudies"></div></div>
+              <div class="box"><h4>Antropometría</h4><p><strong>Peso:</strong> <span id="vWeight"></span> kg · <strong>Talla:</strong> <span id="vHeight"></span> m · <strong>IMC:</strong> <span id="vBMI"></span></p><button class="btn soft" id="btnEditVitals2" style="margin-top:10px">Editar antropometría</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="pacientes">
+      <div class="white" style="padding:16px">
+        <div class="toolbar"><button class="btn primary" id="btnAddPaciente2">＋ Nuevo paciente</button><input id="patientSearch" placeholder="Buscar..." style="padding:10px 12px;border:1px solid var(--line);border-radius:11px"></div>
+        <div style="overflow:auto"><table class="table"><thead><tr><th>Expediente</th><th>Paciente</th><th>Edad</th><th>Sexo</th><th>Alergias</th><th>Acciones</th></tr></thead><tbody id="patientsRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="agenda"><div class="white" style="padding:16px"><div class="toolbar"><button class="btn primary" id="btnAddCita2">Nueva cita</button></div><div id="agendaFull"></div></div></section>
+    <section class="page" id="consultas"><div class="white" style="padding:16px"><div class="toolbar"><button class="btn primary" id="btnAddConsulta2">Nueva consulta</button></div><table class="table"><thead><tr><th>Fecha</th><th>Paciente</th><th>Motivo</th><th>Diagnóstico</th><th>Nota</th></tr></thead><tbody id="consultRows"></tbody></table></div></section>
+    <section class="page" id="recetas"><div class="white" style="padding:16px"><div class="toolbar"><button class="btn primary" id="btnAddRx">Nueva receta</button><button class="btn ghost" id="btnPrintLastRx">Imprimir última</button></div><table class="table"><thead><tr><th>Fecha</th><th>Paciente</th><th>Medicamento</th><th>Dosis</th><th>Frecuencia</th><th>Duración</th></tr></thead><tbody id="rxRows"></tbody></table></div></section>
+    <section class="page" id="estudios"><div class="white" style="padding:16px"><div class="toolbar"><button class="btn primary" id="btnAddStudy">Registrar estudio</button></div><table class="table"><thead><tr><th>Fecha</th><th>Paciente</th><th>Estudio</th><th>Estado</th><th>Observaciones</th></tr></thead><tbody id="studyRows"></tbody></table></div></section>
+    <section class="page" id="notas"><div class="white" style="padding:16px"><h3 style="margin-top:0">Notas clínicas</h3><div id="notesList"></div></div></section>
+    <section class="page" id="perfil"><div class="white" style="padding:18px"><h3 style="margin-top:0">Perfil del médico</h3><p><strong>Dr. Carlos Mendoza</strong></p><p>Medicina general · Vista demo del médico</p><button class="btn danger" id="btnReset">Restablecer demo</button></div></section>
+</div>
+<!-- MODALS -->
+<div class="modalwrap" id="modalPatient"><div class="modal"><div class="modal-head"><h3 id="patientModalTitle">Nuevo paciente</h3><button class="close" data-close="modalPatient">✕</button></div><form id="patientForm"><div class="modal-body"><div class="form">
+  <div class="field"><label>Nombre completo</label><input id="fName" required></div><div class="field"><label>CURP</label><input id="fCurp" required></div>
+  <div class="field"><label>Fecha de nacimiento</label><input id="fBirth" type="date" required></div><div class="field"><label>Sexo</label><select id="fSex"><option>Femenino</option><option>Masculino</option></select></div>
+  <div class="field"><label>Tipo sanguíneo</label><select id="fBlood"><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select></div><div class="field"><label>Alergias</label><input id="fAllergy"></div>
+  <div class="field"><label>Teléfono</label><input id="fPhone"></div><div class="field"><label>Correo</label><input id="fEmail" type="email"></div>
+  <div class="field full"><label>Ciudad</label><input id="fCity"></div>
+</div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalPatient">Cancelar</button><button class="btn primary">Guardar</button></div></form></div></div>
+
+<div class="modalwrap" id="modalVitals"><div class="modal"><div class="modal-head"><h3>Editar signos vitales</h3><button class="close" data-close="modalVitals">✕</button></div><form id="vitalsForm"><div class="modal-body"><div class="form">
+  <div class="field"><label>TA sistólica</label><input id="fSys" type="number" min="40" max="260" required></div><div class="field"><label>TA diastólica</label><input id="fDia" type="number" min="20" max="180" required></div>
+  <div class="field"><label>Frecuencia cardiaca (lpm)</label><input id="fFC" type="number" min="20" max="250" required></div><div class="field"><label>Frecuencia respiratoria (rpm)</label><input id="fFR" type="number" min="5" max="80" required></div>
+  <div class="field"><label>Temperatura (°C)</label><input id="fTemp" type="number" step="0.1" min="30" max="45" required></div><div class="field"><label>SpO₂ (%)</label><input id="fSpO2" type="number" min="50" max="100" required></div>
+  <div class="field"><label>Peso (kg)</label><input id="fWeight" type="number" step="0.1" min="1" max="400" required></div><div class="field"><label>Talla (m)</label><input id="fHeight" type="number" step="0.01" min="0.5" max="2.5" required></div>
+  <div class="field"><label>Glucosa (mg/dL)</label><input id="fGlucose" type="number" min="20" max="600"></div><div class="field"><label>Dolor EVA (0-10)</label><input id="fPain" type="number" min="0" max="10"></div>
+</div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalVitals">Cancelar</button><button class="btn primary">Guardar signos vitales</button></div></form></div></div>
+
+<div class="modalwrap" id="modalText"><div class="modal"><div class="modal-head"><h3 id="textTitle">Editar</h3><button class="close" data-close="modalText">✕</button></div><form id="textForm"><div class="modal-body"><div class="field"><label id="textLabel">Contenido</label><textarea id="textValue" style="min-height:170px"></textarea></div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalText">Cancelar</button><button class="btn primary">Guardar cambios</button></div></form></div></div>
+
+<div class="modalwrap" id="modalList"><div class="modal"><div class="modal-head"><h3 id="listTitle">Editar lista</h3><button class="close" data-close="modalList">✕</button></div><form id="listForm"><div class="modal-body"><div class="field"><label>Escribe un elemento por línea</label><textarea id="listValue" style="min-height:190px"></textarea></div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalList">Cancelar</button><button class="btn primary">Guardar lista</button></div></form></div></div>
+
+<div class="modalwrap" id="modalConsult"><div class="modal"><div class="modal-head"><h3>Nueva consulta</h3><button class="close" data-close="modalConsult">✕</button></div><form id="consultForm"><div class="modal-body"><div class="form">
+  <div class="field full"><label>Paciente</label><select id="cPatient"></select></div><div class="field"><label>Motivo</label><input id="cReason" required></div><div class="field"><label>Diagnóstico</label><input id="cDx" required></div><div class="field full"><label>Nota clínica</label><textarea id="cNote"></textarea></div>
+</div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalConsult">Cancelar</button><button class="btn primary">Guardar consulta</button></div></form></div></div>
+
+<div class="modalwrap" id="modalRx"><div class="modal"><div class="modal-head"><h3>Nueva receta</h3><button class="close" data-close="modalRx">✕</button></div><form id="rxForm"><div class="modal-body"><div class="form">
+  <div class="field full"><label>Paciente</label><select id="rPatient"></select></div><div class="field"><label>Medicamento</label><input id="rDrug" required></div><div class="field"><label>Dosis</label><input id="rDose" required></div><div class="field"><label>Frecuencia</label><input id="rFreq" required></div><div class="field"><label>Duración</label><input id="rDuration" required></div><div class="field full"><label>Indicaciones</label><textarea id="rNotes"></textarea></div>
+</div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalRx">Cancelar</button><button class="btn primary">Guardar receta</button></div></form></div></div>
+
+<div class="modalwrap" id="modalStudy"><div class="modal"><div class="modal-head"><h3>Registrar estudio</h3><button class="close" data-close="modalStudy">✕</button></div><form id="studyForm"><div class="modal-body"><div class="form">
+  <div class="field full"><label>Paciente</label><select id="sPatient"></select></div><div class="field"><label>Estudio</label><input id="sType" required></div><div class="field"><label>Estado</label><select id="sStatus"><option>Pendiente</option><option>Normal</option><option>Alterado</option><option>Revisado</option></select></div><div class="field full"><label>Observaciones</label><textarea id="sObs"></textarea></div>
+</div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalStudy">Cancelar</button><button class="btn primary">Guardar estudio</button></div></form></div></div>
+
+<div class="modalwrap" id="modalAppointment"><div class="modal"><div class="modal-head"><h3>Nueva cita</h3><button class="close" data-close="modalAppointment">✕</button></div><form id="appointmentForm"><div class="modal-body"><div class="form">
+  <div class="field full"><label>Paciente</label><select id="aPatient"></select></div><div class="field"><label>Hora</label><input id="aTime" type="time" required></div><div class="field"><label>Motivo</label><input id="aReason" required></div><div class="field"><label>Estado</label><select id="aStatus"><option>Programada</option><option>En espera</option><option>En consulta</option><option>Atendida</option></select></div>
+</div></div><div class="modal-foot"><button type="button" class="btn ghost" data-close="modalAppointment">Cancelar</button><button class="btn primary">Guardar cita</button></div></form></div></div>
+
+<div class="toastwrap" id="toastWrap"></div>
+
+<script src="/js/app.js" defer></script>
+<script src="/js/medico.js" defer></script>
+<div id="dbStatus" style="position:fixed;bottom:12px;right:14px;background:#12385a;color:white;padding:8px 14px;border-radius:12px;font:12px Arial;z-index:9999">● Conectando MySQL...</div>
+</body>
+</html>
